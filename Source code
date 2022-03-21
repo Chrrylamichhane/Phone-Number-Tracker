@@ -1,0 +1,44 @@
+import tkinter
+from tkinter import *
+import pycountry
+from phone_iso3166.country import phone_country
+
+
+class Tracker:
+    def __init__(self, root):
+        self.window = root
+        self.window.title("Phone number Tracker By Ashish")
+        self.window.configure(bg="maroon")
+        self.window.geometry("800x500")
+
+
+        Label(root, text="Enter a phone number",fg="black", bg="#22c1c3",font=("Times", 30)).place(x=250,y= 100)
+
+        self.phone_number = Entry(root, width=29, font=("Times", 15), bg="#22c1c3",relief="flat")
+        self.phone_number.place(x=270, y=160)#Widgets
+
+        self.track_B1 = Button(root, text="Track Country", width=20, bg="#22c1c3", relief="sunken")
+        self.track_B1.place(x=320, y=200)#Widgets
+
+        self.country_label = Label(root,fg="black", font=("Times", 20))
+        self.country_label.place(x=100, y=280)#Widgets
+
+
+        self.track_B1.bind("<Button-1>", self.Track_location)
+
+
+    def Track_location(self,event):
+        phone_number = self.phone_number.get()
+        country = "Nepal"
+        if phone_number:
+            tracked = pycountry.countries.get(alpha_2=phone_country(phone_number))
+            print(tracked)
+            if tracked:
+                country = tracked.official_name
+        self.country_label.configure(text=country)
+
+
+
+PhoneTracker = Tk()
+MyApp = Tracker(PhoneTracker)
+PhoneTracker.mainloop()
